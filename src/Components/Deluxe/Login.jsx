@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuth } from "../ContextApi/Context";
+
+
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -8,31 +11,21 @@ const Login = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth(); // Get the login function from context
 
-  useEffect(() => {
-    // Check if already logged in
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn === "true") {
-      navigate("/");
-    }
-  }, [navigate]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
-    // Simulate API call with setTimeout
-    setTimeout(() => {
-      if (username === "AkaayStudio888" && password === "AkaayStudio888") {
-        // Set logged in status in localStorage
-        localStorage.setItem("isLoggedIn", "true");
-        navigate("/");
-      } else {
-        setError("Invalid username or password");
-      }
+    try {
+      await login(username, password);
+      navigate("/");
+    } catch (err) {
+      setError(err);
+    } finally {
       setIsLoading(false);
-    }, 800);
+    }
   };
 
   return (

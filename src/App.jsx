@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Deluxe/Login";
-// import Login from "./Components/Login/Login "; // Import the new Login component
 import BookingCard from "./Components/BookingCard";
 import QuantityBirthday from "./Components/Quantity";
 import ThankYouPage from "./Components/Thankyou";
@@ -24,26 +23,34 @@ import ScrollToTop from './Components/ScrollTop';
 import PrivacyPolicy from './Components/privacy-policy/privacy';
 import RefundPolicy from './Components/Refund';
 import AboutUs from './Components/AboutUs/AboutUs';
+// import AuthProvider, { useAuth } from "./Components/ContextAuth/AuthContext"; // Import the new AuthProvider
+import AuthProvider from "./Components/ContextAuth/AuthProvider";
+import { useAuth } from "./Components/ContextAuth/AuthProvider";
 
-// Protected Route component
+// Protected Route component using our new context
 const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const { isAuthenticated } = useAuth();
   
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
   
   return children;
 };
 
-const App = () => {
+const AppContent = () => {
+  const { isAuthenticated } = useAuth();
+  
   return (
     <Context>
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
           {/* Login route - accessible without authentication */}
-          <Route path="/login" element={<Login />} />
+          <Route 
+            path="/login" 
+            element={isAuthenticated ? <Navigate to="/" replace /> : <Login />} 
+          />
           
           {/* Protected routes - require authentication */}
           <Route path="/" element={
@@ -216,11 +223,21 @@ const App = () => {
             </ProtectedRoute>
           } />
           
-          {/* Redirect any unknown routes to login */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Redirect any unknown routes to login if not authenticated, otherwise to home */}
+          <Route path="*" element={
+            isAuthenticated ? <Navigate to="/" replace /> : <Navigate to="/login" replace />
+          } />
         </Routes>
       </BrowserRouter>
     </Context>
+  );
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 };
 

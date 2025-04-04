@@ -10,6 +10,8 @@ import WelcomeSection from "./Welcome";
 import ServicesSection from "./Services/ServicesSection";
 import { motion } from "framer-motion";
 import Birthday from "./BirthdayGallery/BirthdayGallery";
+import { useAuth } from "./ContextAuth/AuthProvider";
+
 
 // Animation variants for scroll animations
 const fadeInUp = {
@@ -32,15 +34,9 @@ const fadeIn = {
 const Home = () => {
   const { date, setDate } = useContext(contextApi);
   const navigate = useNavigate();
+  const { logout } = useAuth(); // Get the logout function from context
 
   useEffect(() => {
-    // Authentication check
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn !== "true") {
-      navigate("/login");
-      return;
-    }
-    
     // Reset date only in Home component when it mounts
     setDate("");
     
@@ -50,7 +46,7 @@ const Home = () => {
       left: 0,
       behavior: "smooth"
     });
-  }, [navigate, setDate]);
+  }, [setDate]);
 
   const images = [
     "/assets/Delax-01.JPG",
@@ -104,7 +100,7 @@ const Home = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
+    logout(); // Use the context's logout function
     navigate("/login");
   };
 
