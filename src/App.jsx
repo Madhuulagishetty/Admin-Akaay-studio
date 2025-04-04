@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./Components/Home";
-import Login from "./Components/Login/login";
+import Login from "./Components/Deluxe/Login";
 // import Login from "./Components/Login/Login "; // Import the new Login component
 import BookingCard from "./Components/BookingCard";
 import QuantityBirthday from "./Components/Quantity";
 import ThankYouPage from "./Components/Thankyou";
+
 import Context from "./Components/ContextApi/Context";
 import Menu from "./Components/Menu";
 import Packages from "./Components/Package/Package";
