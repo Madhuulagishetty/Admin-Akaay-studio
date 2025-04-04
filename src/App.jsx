@@ -25,7 +25,7 @@ import RefundPolicy from './Components/Refund';
 import AboutUs from './Components/AboutUs/AboutUs';
 // import AuthProvider, { useAuth } from "./Components/ContextAuth/AuthContext"; // Import the new AuthProvider
 import AuthProvider from "./Components/ContextAuth/AuthProvider";
-import { useAuth } from "./Components/ContextAuth/AuthProvider";
+import {useAuth} from "./Components/ContextAuth/AuthProvider";
 
 // Protected Route component using our new context
 const ProtectedRoute = ({ children }) => {
