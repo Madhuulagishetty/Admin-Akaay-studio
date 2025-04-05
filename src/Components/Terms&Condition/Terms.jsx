@@ -56,7 +56,7 @@ const TermsMain = () => {
   
       // Sending email using EmailJS
       const templateParams = {
-        to_email: 'lagishettymadhu05@gmail.com',
+        to_email: bookingData.email,
         booking_date: bookingData.date,
         booking_time: bookingTime,
         whatsapp_number: bookingData.whatsapp,
