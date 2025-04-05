@@ -73,7 +73,7 @@ const TermsMain = () => {
       // Process these operations in parallel for better performance
       await Promise.all([
         // SheetDB API call
-        fetch('https://sheetdb.io/api/v1/dqqdhuekivsab', {
+        fetch('https://sheetdb.io/api/v1/x6sflb64abrf4', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
